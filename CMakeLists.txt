@@ -23,6 +23,7 @@ set(DWARF_PREFIX 1_dense) # The prefix of the name of the binaries produced
 
 # Add the examples
 add_subdirectory(gemm/cublas)
+add_subdirectory(gemm/clblas)
 add_subdirectory(kmeans/kmeans_cuda)
 add_subdirectory(kmeans/kmeans_openmp)
 add_subdirectory(kmeans/kmeans_rodinia_opencl)
