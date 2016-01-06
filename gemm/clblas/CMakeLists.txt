@@ -20,9 +20,10 @@ enable_language(C)
 
 find_package(Common)
 find_package(OpenCL)   # Included as ${CMAKE_MODULE_PATH}/FindOpenCL.cmake
+find_package(clBLAS)
 
 # Finds the OpenCL clBLAS library
-find_library(OPENCL_CLBLAS_LIBRARIES
+find_library(CLBLAS_LIBRARIES
   NAMES clBLAS
   PATH_SUFFIXES lib lib64
   PATHS /usr /usr/local
@@ -33,9 +34,10 @@ find_library(OPENCL_CLBLAS_LIBRARIES
 set(NAME ${DWARF_PREFIX}_gemm_clblas)
 if (OPENCL_FOUND)
   include_directories(${OPENCL_INCLUDE_DIRS})
+  include_directories(${CLBLAS_INCLUDE_DIRS})
   add_executable(${NAME} src/sgemm_clblas.c)
   target_link_libraries(${NAME} ${OPENCL_LIBRARIES})
-  target_link_libraries(${NAME} ${OPENCL_CLBLAS_LIBRARIES})
+  target_link_libraries(${NAME} ${CLBLAS_LIBRARIES})
 endif()
 
 unset(NAME)
