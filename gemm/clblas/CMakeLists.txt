@@ -38,6 +38,7 @@ if (OPENCL_FOUND)
   add_executable(${NAME} src/sgemm_clblas.c)
   target_link_libraries(${NAME} ${OPENCL_LIBRARIES})
   target_link_libraries(${NAME} ${CLBLAS_LIBRARIES})
+  install(TARGETS ${NAME} DESTINATION bin)
 endif()
 
 unset(NAME)
