@@ -32,13 +32,19 @@ find_library(CLBLAS_LIBRARIES
 
 # GEMM with the OpenCL clBLAS library
 set(NAME ${DWARF_PREFIX}_gemm_clblas)
-if (OPENCL_FOUND)
+if (OPENCL_FOUND AND CLBLAS_FOUND)
   include_directories(${OPENCL_INCLUDE_DIRS})
   include_directories(${CLBLAS_INCLUDE_DIRS})
   add_executable(${NAME} src/sgemm_clblas.c)
   target_link_libraries(${NAME} ${OPENCL_LIBRARIES})
   target_link_libraries(${NAME} ${CLBLAS_LIBRARIES})
   install(TARGETS ${NAME} DESTINATION bin)
+  message("** Enabling '${NAME}': with OpenCL and clBLAS")
+
+else()
+     message("## Skipping '${NAME}_omp': no MPI or OpenMP support found")
+     dummy_install(${NAME} "MPI_OpenMP")
 endif()
+
 
 unset(NAME)
