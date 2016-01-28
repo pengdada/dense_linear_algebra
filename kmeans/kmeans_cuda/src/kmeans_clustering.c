@@ -49,15 +49,15 @@
 /**              Northwestern University.                               **/
 /**                                                                     **/
 /**   ================================================================  **/
-/**																		**/
-/**   Edited by: Shuai Che, David Tarjan, Sang-Ha Lee					**/
-/**				 University of Virginia									**/
-/**																		**/
-/**   Description:	No longer supports fuzzy c-means clustering;	 	**/
-/**					only regular k-means clustering.					**/
-/**					No longer performs "validity" function to analyze	**/
-/**					compactness and separation crietria; instead		**/
-/**					calculate root mean squared error.					**/
+/**									**/
+/**   Edited by: Shuai Che, David Tarjan, Sang-Ha Lee			**/
+/**				 University of Virginia			**/
+/**									**/
+/**   Description:	No longer supports fuzzy c-means clustering;	**/
+/**			only regular k-means clustering.		**/
+/**			No longer performs "validity" function to analyze**/
+/**			compactness and separation crietria; instead	**/
+/**			calculate root mean squared error.		**/
 /**                                                                     **/
 /*************************************************************************/
 
@@ -80,22 +80,22 @@ float** kmeans_clustering(float **feature,    /* in: [npoints][nfeatures] */
                           float   threshold,
                           int    *membership) /* out: [npoints] */
 {    
-    int      i, j, n = 0;				/* counters */
-	int		 loop=0, temp;
-    int     *new_centers_len;	/* [nclusters]: no. of points in each cluster */
-    float    delta;				/* if the point moved */
-    float  **clusters;			/* out: [nclusters][nfeatures] */
-    float  **new_centers;		/* [nclusters][nfeatures] */
+    int	i, j, n = 0;				/* counters */
+    int	loop=0, temp;
+    int	*new_centers_len;	/* [nclusters]: no. of points in each cluster */
+    float	delta;				/* if the point moved */
+    float	**clusters;			/* out: [nclusters][nfeatures] */
+    float	**new_centers;		/* [nclusters][nfeatures] */
 
-	int     *initial;			/* used to hold the index of points not yet selected
-								   prevents the "birthday problem" of dual selection (?)
-								   considered holding initial cluster indices, but changed due to
-								   possible, though unlikely, infinite loops */
-	int      initial_points;
-	int		 c = 0;
+    int	*initial;		/* used to hold the index of points not yet selected
+				prevents the "birthday problem" of dual selection (?)
+				considered holding initial cluster indices, but changed due to
+				possible, though unlikely, infinite loops */
+    int	initial_points;
+    int	c = 0;
 
 	/* nclusters should never be > npoints
-	   that would guarantee a cluster without points */
+	that would guarantee a cluster without points */
 	if (nclusters > npoints)
 		nclusters = npoints;
 
@@ -146,14 +146,14 @@ float** kmeans_clustering(float **feature,    /* in: [npoints][nfeatures] */
         delta = 0.0;
 		// CUDA
 		delta = (float) kmeansCuda(feature,			/* in: [npoints][nfeatures] */
-								   nfeatures,		/* number of attributes for each point */
-								   npoints,			/* number of data points */
-								   nclusters,		/* number of clusters */
-								   membership,		/* which cluster the point belongs to */
-								   clusters,		/* out: [nclusters][nfeatures] */
-								   new_centers_len,	/* out: number of points in each cluster */
-								   new_centers		/* sum of points in each cluster */
-								   );
+								nfeatures,		/* number of attributes for each point */
+								npoints,		/* number of data points */
+								nclusters,		/* number of clusters */
+								membership,		/* which cluster the point belongs to */
+								clusters,		/* out: [nclusters][nfeatures] */
+								new_centers_len,	/* out: number of points in each cluster */
+								new_centers		/* sum of points in each cluster */
+								);
 
 		/* replace old cluster centers with new_centers */
 		/* CPU side of reduction */

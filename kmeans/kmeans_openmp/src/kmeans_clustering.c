@@ -48,14 +48,14 @@
 /**              Northwestern University.                               **/
 /**                                                                     **/
 /**   ================================================================  **/
-/**																		**/
-/**   Edited by: Sang-Ha  Lee											**/
-/**				 University of Virginia									**/
-/**																		**/
-/**   Description:	No longer supports fuzzy c-means clustering;	 	**/
-/**					only regular k-means clustering.					**/
-/**					Simplified for main functionality: regular k-means	**/
-/**					clustering.											**/
+/**									**/
+/**Edited by: Sang-Ha  Lee						**/
+/**University of Virginia						**/
+/**									**/
+/**Description:	No longer supports fuzzy c-means clustering;	 	**/
+/**		only regular k-means clustering.			**/
+/**		Simplified for main functionality: regular k-means	**/
+/**		clustering.						**/
 /**                                                                     **/
 /*************************************************************************/
 
@@ -123,13 +123,13 @@ float** kmeans_clustering(float **feature,    /* in: [npoints][nfeatures] */
 
     int      i, j, k, n=0, index, loop=0;
     int     *new_centers_len;			/* [nclusters]: no. of points in each cluster */
-	float  **new_centers;				/* [nclusters][nfeatures] */
-	float  **clusters;					/* out: [nclusters][nfeatures] */
+    float  **new_centers;				/* [nclusters][nfeatures] */
+    float  **clusters;					/* out: [nclusters][nfeatures] */
     float    delta;
-        
+
     double   timing;
 
-	int      nthreads;
+    int      nthreads;
     int    **partial_new_centers_len;
     float ***partial_new_centers;
 
@@ -219,7 +219,7 @@ float** kmeans_clustering(float **feature,    /* in: [npoints][nfeatures] */
                     partial_new_centers[j][i][k] = 0.0;
                 }
             }
-        }    
+        }
 
 		/* replace old cluster centers with new_centers */
 		for (i=0; i<nclusters; i++) {
@@ -230,10 +230,9 @@ float** kmeans_clustering(float **feature,    /* in: [npoints][nfeatures] */
 			}
 			new_centers_len[i] = 0;   /* set back to 0 */
 		}
-        
+
     } while (delta > threshold && loop++ < 500);
 
-    
     free(new_centers[0]);
     free(new_centers);
     free(new_centers_len);

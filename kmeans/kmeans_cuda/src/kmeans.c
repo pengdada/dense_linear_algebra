@@ -57,15 +57,15 @@
 /**              Northwestern University.                               **/
 /**                                                                     **/
 /**   ================================================================  **/
-/**																		**/
-/**   Edited by: Shuai Che, David Tarjan, Sang-Ha Lee					**/
-/**				 University of Virginia									**/
-/**																		**/
-/**   Description:	No longer supports fuzzy c-means clustering;	 	**/
-/**					only regular k-means clustering.					**/
-/**					No longer performs "validity" function to analyze	**/
-/**					compactness and separation crietria; instead		**/
-/**					calculate root mean squared error.					**/
+/**									**/
+/**   Edited by: Shuai Che, David Tarjan, Sang-Ha Lee			**/
+/**				 University of Virginia			**/
+/**									**/
+/**   Description:	No longer supports fuzzy c-means clustering;	**/
+/**			only regular k-means clustering.		**/
+/**			no longer performs "validity" function to analyze**/
+/**			compactness and separation crietria; instead	**/
+/**			calculate root mean squared error.		**/
 /**                                                                     **/
 /*************************************************************************/
 #define _CRT_SECURE_NO_DEPRECATE 1
@@ -91,11 +91,11 @@ void usage(char *argv0) {
         "\nUsage: %s [switches] -i filename\n\n"
 		"    -i filename      :file containing data to be clustered\n"		
 		"    -m max_nclusters :maximum number of clusters allowed    [default=5]\n"
-        "    -n min_nclusters :minimum number of clusters allowed    [default=5]\n"
+		"    -n min_nclusters :minimum number of clusters allowed    [default=5]\n"
 		"    -t threshold     :threshold value                       [default=0.001]\n"
 		"    -l nloops        :iteration for each number of clusters [default=1]\n"
 		"    -b               :input file is in binary format\n"
-        "    -r               :calculate RMSE                        [default=off]\n"
+		"    -r               :calculate RMSE                        [default=off]\n"
 		"    -o               :output cluster center coordinates     [default=off]\n";
     fprintf(stderr, help, argv0);
     exit(-1);
@@ -104,7 +104,7 @@ void usage(char *argv0) {
 /*---< main() >-------------------------------------------------------------*/
 int setup(int argc, char **argv) {
 		int		opt;
- extern char   *optarg;
+		extern char   *optarg;
 		char   *filename = 0;
 		float  *buf;
 		char	line[1024];
@@ -131,35 +131,35 @@ int setup(int argc, char **argv) {
 		float	cluster_timing, io_timing;		
 #endif
 		/* obtain command line arguments and change appropriate options */
-		while ( (opt=getopt(argc,argv,"i:t:m:n:l:bro"))!= EOF) {
+    while ( (opt=getopt(argc,argv,"i:t:m:n:l:bro"))!= EOF) {
         switch (opt) {
             case 'i': filename=optarg;
-                      break;
+        		break;
             case 'b': isBinaryFile = 1;
-                      break;            
+        		break;            
             case 't': threshold=atof(optarg);
-                      break;
+        		break;
             case 'm': max_nclusters = atoi(optarg);
-                      break;
+        		break;
             case 'n': min_nclusters = atoi(optarg);
-                      break;
-			case 'r': isRMSE = 1;
-                      break;
-			case 'o': isOutput = 1;
-					  break;
-		    case 'l': nloops = atoi(optarg);
-					  break;
+        		break;
+	    case 'r': isRMSE = 1;
+        		break;
+	    case 'o': isOutput = 1;
+			break;
+	    case 'l': nloops = atoi(optarg);
+			break;
             case '?': usage(argv[0]);
-                      break;
+            		break;
             default: usage(argv[0]);
-                      break;
+        		break;
         }
     }
 
     if (filename == 0) usage(argv[0]);
 		
 	/* ============== I/O begin ==============*/
-    /* get nfeatures and npoints */
+	/* get nfeatures and npoints */
 #ifdef _OPENMP
     io_timing = omp_get_wtime();
 #endif
@@ -199,7 +199,7 @@ int setup(int argc, char **argv) {
                 while (strtok(NULL, " ,\t\n") != NULL) nfeatures++;
                 break;
             }
-        }        
+        }
 
         /* allocate space for features[] and read attributes of all objects */
         buf         = (float*) malloc(npoints*nfeatures*sizeof(float));
@@ -214,7 +214,7 @@ int setup(int argc, char **argv) {
             for (j=0; j<nfeatures; j++) {
                 buf[i] = atof(strtok(NULL, " ,\t\n"));             
                 i++;
-            }            
+            }
         }
         fclose(infile);
     }
@@ -234,7 +234,7 @@ int setup(int argc, char **argv) {
 		exit(0);
 	}
 
-	srand(7);												/* seed for future random number generator */	
+	srand(7); /* seed for future random number generator */	
 	memcpy(features[0], buf, npoints*nfeatures*sizeof(float)); /* now features holds 2-dimensional array of features */
 	free(buf);
 
@@ -243,17 +243,17 @@ int setup(int argc, char **argv) {
     cluster_timing = omp_get_wtime();		/* Total clustering time */
 #endif
 	cluster_centres = NULL;
-    index = cluster(npoints,				/* number of data points */
-					nfeatures,				/* number of features for each point */
-					features,				/* array: [npoints][nfeatures] */
-					min_nclusters,			/* range of min to max number of clusters */
-					max_nclusters,
-					threshold,				/* loop termination factor */
-				   &best_nclusters,			/* return: number between min and max */
-				   &cluster_centres,		/* return: [best_nclusters][nfeatures] */  
-				   &rmse,					/* Root Mean Squared Error */
-					isRMSE,					/* calculate RMSE */
-					nloops);				/* number of iteration for each number of clusters */		
+	index = cluster(npoints,				/* number of data points */
+			nfeatures,				/* number of features for each point */
+			features,				/* array: [npoints][nfeatures] */
+			min_nclusters,			/* range of min to max number of clusters */
+			max_nclusters,
+			threshold,				/* loop termination factor */
+			&best_nclusters,			/* return: number between min and max */
+			&cluster_centres,		/* return: [best_nclusters][nfeatures] */  
+			&rmse,					/* Root Mean Squared Error */
+			isRMSE,					/* calculate RMSE */
+			nloops);				/* number of iteration for each number of clusters */
 #ifdef _OPENMP    
 	cluster_timing = omp_get_wtime() - cluster_timing;
 #endif
@@ -281,30 +281,30 @@ int setup(int argc, char **argv) {
 	printf("Time for Entire Clustering: %.5fsec\n", cluster_timing);
 #endif	
 	if(min_nclusters != max_nclusters){
-		if(nloops != 1){									//range of k, multiple iteration
+		if(nloops != 1){//range of k, multiple iteration
 #ifdef _OPENMP
 			//printf("Average Clustering Time: %fsec\n",
-			//		cluster_timing / len);
+			//cluster_timing / len);
 #endif
-			printf("Best number of clusters is %d\n", best_nclusters);				
+			printf("Best number of clusters is %d\n", best_nclusters);
 		}
-		else{												//range of k, single iteration
+		else{	//range of k, single iteration
 			//printf("Average Clustering Time: %fsec\n",
 			//		cluster_timing / len);
-			printf("Best number of clusters is %d\n", best_nclusters);				
+			printf("Best number of clusters is %d\n", best_nclusters);
 		}
 	}
 	else{
-		if(nloops != 1){									// single k, multiple iteration
+		if(nloops != 1){// single k, multiple iteration
 #ifdef _OPENMP
 			printf("Average Clustering Time: %.5fsec\n",
 					cluster_timing / nloops);
 #endif
-			if(isRMSE)										// if calculated RMSE
+			if(isRMSE)// if calculated RMSE
 				printf("Number of trials to approach the best RMSE of %.3f is %d\n", rmse, index + 1);
 		}
-		else{												// single k, single iteration				
-			if(isRMSE)										// if calculated RMSE
+		else{// single k, single iteration
+			if(isRMSE)// if calculated RMSE
 				printf("Root Mean Squared Error: %.3f\n", rmse);
 		}
 	}
@@ -312,7 +312,7 @@ int setup(int argc, char **argv) {
 
 	/* free up memory */
 	free(features[0]);
-	free(features);    
-    return(0);
+	free(features);
+	return(0);
 }
 

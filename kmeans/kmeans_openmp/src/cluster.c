@@ -52,14 +52,14 @@
 /**              Northwestern University.                               **/
 /**                                                                     **/
 /**   ================================================================  **/
-/**																		**/
-/**   Edited by: Sang-Ha  Lee											**/
-/**				 University of Virginia									**/
-/**																		**/
-/**   Description:	No longer supports fuzzy c-means clustering;	 	**/
-/**					only regular k-means clustering.					**/
-/**					Simplified for main functionality: regular k-means	**/
-/**					clustering.											**/
+/**									**/
+/**Edited by: Sang-Ha  Lee						**/
+/**University of Virginia						**/
+/**									**/
+/**Description:	No longer supports fuzzy c-means clustering;		**/
+/**		only regular k-means clustering.			**/
+/**		Simplified for main functionality: regular k-means	**/
+/**		clustering.						**/
 /**                                                                     **/
 /*************************************************************************/
 
@@ -88,25 +88,23 @@ int cluster(int      numObjects,      /* number of input objects */
     float **tmp_cluster_centres;
 
     membership = (int*) malloc(numObjects * sizeof(int));
-   
+
     srand(7);
-	/* perform regular Kmeans */
+    /* perform regular Kmeans */
     tmp_cluster_centres = kmeans_clustering(attributes,
                                             numAttributes,
                                             numObjects,
                                             nclusters,
                                             threshold,
                                             membership);      
-	
+
     if (*cluster_centres) {
-		free((*cluster_centres)[0]);
+	free((*cluster_centres)[0]);
         free(*cluster_centres);
     }
     *cluster_centres = tmp_cluster_centres;
 
-   
-	free(membership);
+    free(membership);
 
     return 0;
 }
-

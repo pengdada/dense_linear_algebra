@@ -1,12 +1,12 @@
 /*************************************************************************/
-/**   File:         rmse.c												**/
+/**   File:         rmse.c						**/
 /**   Description:  calculate root mean squared error of particular     **/
-/**                 clustering.											**/
-/**   Author:  Sang-Ha Lee												**/
-/**            University of Virginia.									**/
-/**																		**/
+/**                 clustering.						**/
+/**   Author:  Sang-Ha Lee						**/
+/**            University of Virginia.					**/
+/**									**/
 /**   Note: euclid_dist_2() and find_nearest_point() adopted from       **/
-/**			Minebench code.												**/
+/**			Minebench code.					**/
 /**                                                                     **/
 /*************************************************************************/
 
@@ -70,7 +70,7 @@ float rms_err	(float **feature,         /* [npoints][nfeatures] */
 	int	   nearest_cluster_index;	/* cluster center id with min distance to pt */
     float  sum_euclid = 0.0;		/* sum of Euclidean distance squares */
     float  ret;						/* return value */
-    
+
     /* calculate and sum the sqaure of euclidean distance*/	
     #pragma omp parallel for \
                 shared(feature,cluster_centres) \
@@ -79,15 +79,15 @@ float rms_err	(float **feature,         /* [npoints][nfeatures] */
                 schedule (static)	
     for (i=0; i<npoints; i++) {
         nearest_cluster_index = find_nearest_point(feature[i], 
-													nfeatures, 
-													cluster_centres, 
-													nclusters);
+						nfeatures, 
+						cluster_centres, 
+						nclusters);
 
 		sum_euclid += euclid_dist_2(feature[i],
-									cluster_centres[nearest_cluster_index],
-									nfeatures);
+					cluster_centres[nearest_cluster_index],
+					nfeatures);
 		
-    }	
+}	
 	/* divide by n, then take sqrt */
 	ret = sqrt(sum_euclid / npoints);
 

@@ -1,12 +1,12 @@
 /*************************************************************************/
-/**   File:         rmse.c												**/
+/**   File:         rmse.c						**/
 /**   Description:  calculate root mean squared error of particular     **/
-/**                 clustering.											**/
-/**   Author:  Sang-Ha Lee												**/
-/**            University of Virginia.									**/
-/**																		**/
+/**                 clustering.						**/
+/**   Author:  Sang-Ha Lee						**/
+/**            University of Virginia.					**/
+/**									**/
 /**   Note: euclid_dist_2() and find_nearest_point() adopted from       **/
-/**			Minebench code.												**/
+/**			Minebench code.					**/
 /**                                                                     **/
 /*************************************************************************/
 
@@ -62,15 +62,15 @@ int find_nearest_point(float  *pt,          /* [nfeatures] */
 
 /*----< rms_err(): calculates RMSE of clustering >-------------------------------------*/
 float rms_err	(float **feature,         /* [npoints][nfeatures] */
-                 int     nfeatures,
-                 int     npoints,
-                 float **cluster_centres, /* [nclusters][nfeatures] */
-                 int     nclusters)
+                int     nfeatures,
+                int     npoints,
+                float **cluster_centres, /* [nclusters][nfeatures] */
+                int     nclusters)
 {
-    int    i;
-	int	   nearest_cluster_index;	/* cluster center id with min distance to pt */
-    float  sum_euclid = 0.0;		/* sum of Euclidean distance squares */
-    float  ret;						/* return value */
+    int i;
+    int nearest_cluster_index;	/* cluster center id with min distance to pt */
+    float sum_euclid = 0.0;		/* sum of Euclidean distance squares */
+    float ret;						/* return value */
     
     /* calculate and sum the sqaure of euclidean distance*/	
     #pragma omp parallel for \
@@ -79,19 +79,18 @@ float rms_err	(float **feature,         /* [npoints][nfeatures] */
                 private(i, nearest_cluster_index) \
                 schedule (static)	
     for (i=0; i<npoints; i++) {
-        nearest_cluster_index = find_nearest_point(feature[i], 
-													nfeatures, 
-													cluster_centres, 
-													nclusters);
+        nearest_cluster_index = find_nearest_point(feature[i],
+						nfeatures,
+						cluster_centres,
+						nclusters);
 
 		sum_euclid += euclid_dist_2(feature[i],
-									cluster_centres[nearest_cluster_index],
-									nfeatures);
-		
-    }	
-	/* divide by n, then take sqrt */
-	ret = sqrt(sum_euclid / npoints);
+					cluster_centres[nearest_cluster_index],
+					nfeatures);
+}	
+
+    /* divide by n, then take sqrt */
+    ret = sqrt(sum_euclid / npoints);
 
     return(ret);
 }
-

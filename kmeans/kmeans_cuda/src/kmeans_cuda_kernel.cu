@@ -129,10 +129,10 @@ kmeansPoint(float  *features,			/* in: [npoints*nfeatures] */
 	// primitve reduction follows
 	unsigned int threadids_participating = THREADS_PER_BLOCK / 2;
 	for(;threadids_participating > 1; threadids_participating /= 2) {
-   		if(threadIdx.x < threadids_participating) {
+		if(threadIdx.x < threadids_participating) {
 			deltas[threadIdx.x] += deltas[threadIdx.x + threadids_participating];
 		}
-   		__syncthreads();
+		__syncthreads();
 	}
 	if(threadIdx.x < 1)	{deltas[threadIdx.x] += deltas[threadIdx.x + 1];}
 	__syncthreads();

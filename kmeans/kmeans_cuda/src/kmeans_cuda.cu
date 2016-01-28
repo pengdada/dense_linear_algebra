@@ -143,38 +143,38 @@ kmeansCuda(float  **feature,				/* in: [npoints][nfeatures] */
 		   float  **clusters,				/* coordinates of cluster centers */
 		   int     *new_centers_len,		/* number of elements in each cluster */
            float  **new_centers				/* sum of elements in each cluster */
-		   )
+)
 {
-	int delta = 0;			/* if point has moved */
-	int i,j;				/* counters */
+    int delta = 0;			/* if point has moved */
+    int i,j;				/* counters */
 
 
-	cudaSetDevice(1);
+    cudaSetDevice(1);
 
-	/* copy membership (host to device) */
-	cudaMemcpy(membership_d, membership_new, npoints*sizeof(int), cudaMemcpyHostToDevice);
+    /* copy membership (host to device) */
+    cudaMemcpy(membership_d, membership_new, npoints*sizeof(int), cudaMemcpyHostToDevice);
 
-	/* copy clusters (host to device) */
-	cudaMemcpy(clusters_d, clusters[0], nclusters*nfeatures*sizeof(float), cudaMemcpyHostToDevice);
+    /* copy clusters (host to device) */
+    cudaMemcpy(clusters_d, clusters[0], nclusters*nfeatures*sizeof(float), cudaMemcpyHostToDevice);
 
-	/* set up texture */
+    /* set up texture */
     cudaChannelFormatDesc chDesc0 = cudaCreateChannelDesc<float>();
     t_features.filterMode = cudaFilterModePoint;   
     t_features.normalized = false;
     t_features.channelDesc = chDesc0;
 
-	if(cudaBindTexture(NULL, &t_features, feature_d, &chDesc0, npoints*nfeatures*sizeof(float)) != (cudaError_t) CUDA_SUCCESS)
-        printf("Couldn't bind features array to texture!\n");
+    if(cudaBindTexture(NULL, &t_features, feature_d, &chDesc0, npoints*nfeatures*sizeof(float)) != (cudaError_t) CUDA_SUCCESS)
+    printf("Couldn't bind features array to texture!\n");
 
-	cudaChannelFormatDesc chDesc1 = cudaCreateChannelDesc<float>();
+    cudaChannelFormatDesc chDesc1 = cudaCreateChannelDesc<float>();
     t_features_flipped.filterMode = cudaFilterModePoint;   
     t_features_flipped.normalized = false;
     t_features_flipped.channelDesc = chDesc1;
 
-	if(cudaBindTexture(NULL, &t_features_flipped, feature_flipped_d, &chDesc1, npoints*nfeatures*sizeof(float)) != (cudaError_t) CUDA_SUCCESS)
-        printf("Couldn't bind features_flipped array to texture!\n");
+    if(cudaBindTexture(NULL, &t_features_flipped, feature_flipped_d, &chDesc1, npoints*nfeatures*sizeof(float)) != (cudaError_t) CUDA_SUCCESS)
+    printf("Couldn't bind features_flipped array to texture!\n");
 
-	cudaChannelFormatDesc chDesc2 = cudaCreateChannelDesc<float>();
+    cudaChannelFormatDesc chDesc2 = cudaCreateChannelDesc<float>();
     t_clusters.filterMode = cudaFilterModePoint;   
     t_clusters.normalized = false;
     t_clusters.channelDesc = chDesc2;
