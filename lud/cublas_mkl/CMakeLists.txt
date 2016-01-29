@@ -8,14 +8,14 @@
 #
 # ==================================================================================================
 cmake_minimum_required(VERSION 2.8.10 FATAL_ERROR)
-list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/../../../../cmake/Modules")
+list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/../../../cmake/Modules")
 # Packages are optional: if they are not present, certain code samples are not compiled
 find_package(OpenMP)   # Built-in in CMake
 find_package(MPI)      # Built-in in CMake
 find_package(CUDA)     # Built-in in CMake
 find_package(MKL)
 
-include(${CMAKE_CURRENT_SOURCE_DIR}/../../../../cmake/common.cmake)
+include(${CMAKE_CURRENT_SOURCE_DIR}/../../../cmake/common.cmake)
 
 # ==================================================================================================
 

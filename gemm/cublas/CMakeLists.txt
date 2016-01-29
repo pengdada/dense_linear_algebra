@@ -13,7 +13,7 @@ find_package(OpenMP)   # Built-in in CMake
 find_package(MPI)      # Built-in in CMake
 find_package(CUDA)     # Built-in in CMake
 find_package(OpenCL)   # Included as ${CMAKE_MODULE_PATH}/FindOpenCL.cmake
-include(${CMAKE_CURRENT_SOURCE_DIR}/../../../../cmake/common.cmake)
+include(${CMAKE_CURRENT_SOURCE_DIR}/../../../cmake/common.cmake)
 # ==================================================================================================
 if ("${DWARF_PREFIX}" STREQUAL "")
   set(DWARF_PREFIX 1_dense)
