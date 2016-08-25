@@ -36,7 +36,7 @@ Uses the CodeVault CMake infrastructure, see main README.md
 Just run compiled executable
  
 # 12. Sample input(s)
-andomly generated on sample code execution
+Randomly generated on sample code execution
  
 # 13. Sample output(s)
 execution time of algorthims with and without OpenMP
