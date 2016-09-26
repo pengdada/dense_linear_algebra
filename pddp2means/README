@@ -1,0 +1,16 @@
+/***********************************************************************************************
+*cr                                       University of Patras, Greece
+*cr                                   Copyright (c) 2015 University of Patras
+*cr                                           All rights reserved
+*cr
+*cr                                           Developed by: HPClab 
+*cr                               Computer Engineering and Informatics Department
+*cr                                           University of Patras
+*cr
+***********************************************************************************************/
+
+Usage: 
+```
+#./pddp_2means <input_file> <output_file> <clusters>
+./pddp_2means ../data/40k.csv pddp_2means.out 19
+```
