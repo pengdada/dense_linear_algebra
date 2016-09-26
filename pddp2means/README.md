@@ -55,7 +55,11 @@ Sample data example demonstrating the use of pddp-2means clustering in a small d
 Use the Makefile included in the src/ directory.
 
 # 11. Instructions on how to run the code
+Usage:
 ./pddp_2means <input_file> <output_file> <clusters>
+
+Sample input example:
+./pddp_2means ../data/40k.csv pddp_2means.out 19
 
 # 12. Sample input(s)
 Input-data is included in the data/ folder
