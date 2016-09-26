@@ -41,6 +41,14 @@ Nikos Nikoloutsakos <nikoloutsa@admin.grnet.gr>
 # 6. Copyright / License of the code sample
 Apache 2.0
 
+    University of Patras, Greece
+Copyright (c) 2015 University of Patras
+    All rights reserved
+
+   Developed by: HPClab 
+Computer Engineering and Informatics Department
+    University of Patras
+
 # 7. Language(s) 
 C
 
