@@ -1,3 +1,14 @@
+/***********************************************************************************************
+*cr                                       University of Patras, Greece
+*cr                                   Copyright (c) 2015 University of Patras
+*cr                                           All rights reserved
+*cr
+*cr                                           Developed by: HPClab 
+*cr                               Computer Engineering and Informatics Department
+*cr                                           University of Patras
+*cr
+***********************************************************************************************/
+
 #include "pddp_2means.h"
 
 /******************************************************************************/
