@@ -62,6 +62,16 @@ Sample data example demonstrating the use of pddp-2means clustering in a small d
 # 10. Instructions on how to compile the code
 Use the Makefile included in the src/ directory.
 
+Enable compilation on targets without Xeon Phi device
+select offload compilation enable/disable
+
+```
+icc -offload
+```
+```
+icc -no-offload
+```
+
 # 11. Instructions on how to run the code
 Usage:
 ./pddp_2means <input_file> <output_file> <clusters>
