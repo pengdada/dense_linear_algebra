@@ -58,7 +58,9 @@ typedef struct node	Node;
 
 /*******************************************************************************/
 
+#ifdef __INTEL_OFFLOAD
 #pragma offload_attribute (push,target(mic))
+#endif
 
 void print_elapsed_time(struct timeval start, struct timeval end, char *msg);
 Node *allocate_node(unsigned long data_points);
@@ -78,7 +80,9 @@ double min_cluster_distance(Node *node, unsigned long clusters, unsigned long at
 void post_order_traversal(Node *node, unsigned long *indices, unsigned long *cluster);
 void assign_cluster_numbers(Node *node, unsigned long *result, unsigned long data_points);
 
+#ifdef __INTEL_OFFLOAD
 #pragma offload_attribute (pop)
+#endif
 
 void write_results(unsigned long *result, unsigned long data_points, char *filename);
 

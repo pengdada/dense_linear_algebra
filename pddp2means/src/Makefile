@@ -2,6 +2,7 @@ CC := icc
 
 #CFLAGS := -offload -O3 -openmp
 CFLAGS := -no-offload -O3 -openmp
+#CFLAGS := -O3 -fopenmp -lm
 
 OBJS := pddp_2means.o
 
@@ -16,4 +17,4 @@ $(APP): $(OBJS)
 	$(CC) $(CFLAGS) -o $@ $<
 
 clean:
-	rm -f $(OBJS) $(APP) *.optrpt
+	rm -f $(OBJS) $(APP)

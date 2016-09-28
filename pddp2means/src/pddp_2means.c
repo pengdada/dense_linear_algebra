@@ -12,8 +12,9 @@
 #include "pddp_2means.h"
 
 /******************************************************************************/
-
+#ifdef __INTEL_OFFLOAD
 #pragma offload_attribute (push, target(mic))
+#endif
 
 /******************************************************************************/
 
@@ -182,7 +183,7 @@ void vector_2_means(Node *node, double *M, double *v, unsigned long attributes, 
 	}
 
 	clusters = (char *)alloca(node->num_of_indices * sizeof(char));
-
+#ifdef __INTEL_COMPILER
 	__assume_aligned(node, 64);
 	__assume_aligned(v, 64);
 	__assume_aligned(*l_indices, 64);
@@ -197,6 +198,22 @@ void vector_2_means(Node *node, double *M, double *v, unsigned long attributes, 
 	__assume_aligned(c_r, 64);
 	__assume_aligned(i_l, 64);
 	__assume_aligned(i_r, 64);
+#else
+	__builtin_assume_aligned(node, 64);
+	__builtin_assume_aligned(v, 64);
+	__builtin_assume_aligned(*l_indices, 64);
+	__builtin_assume_aligned(*r_indices, 64);
+	__builtin_assume_aligned(*l_centroid, 64);
+	__builtin_assume_aligned(*r_centroid, 64);
+	__builtin_assume_aligned(l_data_points, 64);
+	__builtin_assume_aligned(r_data_points, 64);
+//	__builtin_assume_aligned(clusters, 64);
+	__builtin_assume_aligned(M_line, 64);
+	__builtin_assume_aligned(c_l, 64);
+	__builtin_assume_aligned(c_r, 64);
+	__builtin_assume_aligned(i_l, 64);
+	__builtin_assume_aligned(i_r, 64);
+#endif
 
 	/*
 	 * Initialize centroids.
@@ -469,12 +486,19 @@ void power_iteration(Node *node, double *M, unsigned long attributes, unsigned l
 		printf("ERROR: Could not allocate a vector in power iteration.\n");
 		exit(0);
 	}
-
+#ifdef __INTEL_COMPILER
 	__assume_aligned(x_prev, 64);
 	__assume_aligned(x_curr, 64);
 	__assume_aligned(x_temp, 64);
 	__assume_aligned(node, 64);
 	__assume_aligned(*v, 64);
+#else
+	__builtin_assume_aligned(x_prev, 64);
+	__builtin_assume_aligned(x_curr, 64);
+	__builtin_assume_aligned(x_temp, 64);
+	__builtin_assume_aligned(node, 64);
+	__builtin_assume_aligned(*v, 64);
+#endif
 
 	#pragma vector aligned
 	#pragma ivdep
@@ -488,8 +512,11 @@ void power_iteration(Node *node, double *M, unsigned long attributes, unsigned l
 
 	double		*temp, *M_line;
 	unsigned long	iter = 0;
-
+#ifdef __INTEL_COMPILER
 	__assume_aligned(M_line, 64);
+#else
+	__builtin_assume_aligned(M_line, 64);
+#endif
 
 	do {
 		#pragma omp single
@@ -639,11 +666,17 @@ unsigned long find_nodes_to_keep(Node *node, unsigned long clusters)
 double max_cluster_diameter(Node *node, double *M, unsigned long attributes, unsigned long padded_attributes)
 {
 	double	l_max_dist = 0.0, r_max_dist = 0.0, max_dist = 0.0, *M_line_i, *M_line_j;
-
+#ifdef __INTEL_COMPILER
 	__assume_aligned(node, 64);
 	__assume_aligned(M, 64);
 	__assume_aligned(M_line_i, 64);
 	__assume_aligned(M_line_j, 64);
+#else
+	__builtin_assume_aligned(node, 64);
+	__builtin_assume_aligned(M, 64);
+	__builtin_assume_aligned(M_line_i, 64);
+	__builtin_assume_aligned(M_line_j, 64);
+#endif
 
 	if (node != NULL) {
 		l_max_dist = max_cluster_diameter(node->leftchild,  M, attributes, padded_attributes);
@@ -705,7 +738,7 @@ void find_all_leaves(Node *node, Node **cluster_nodes, unsigned long *cluster_nu
 
 /******************************************************************************/
 
-__attribute__ ((target(mic))) void find_all_splittable_leaves(Node *node, Node **cluster_nodes, unsigned long *cluster_num)
+void find_all_splittable_leaves(Node *node, Node **cluster_nodes, unsigned long *cluster_num)
 {
 	if (node != NULL) {
 		find_all_splittable_leaves(node->leftchild,  cluster_nodes, cluster_num);
@@ -791,7 +824,9 @@ void assign_cluster_numbers(Node *node, unsigned long *result, unsigned long dat
 
 /******************************************************************************/
 
+#ifdef __INTEL_OFFLOAD
 #pragma offload_attribute (pop)
+#endif
 
 /******************************************************************************/
 
@@ -828,8 +863,12 @@ int main(int argc, char *argv[])
 	char		buffer[BUFFER_SIZE], *line = buffer, *token, *endptr;
 	double		*M;
 	struct timeval	start, end;
-
+    
+#ifdef __INTEL_COMPILER
 	__assume_aligned(M, 64);
+#else
+	__builtin_assume_aligned(M, 64);
+#endif
 
 	if (argc < 4) {
 		printf("ERROR: Insufficient number of arguments.\n");
@@ -934,11 +973,13 @@ int main(int argc, char *argv[])
 
 	print_elapsed_time(start, end, "Time to read input data");
 
+#ifdef __INTEL_OFFLOAD
 #pragma offload target(mic)	in(leaves, data_points, active_data_points, attributes, padded_attributes) \
 				in(M : length(data_points * padded_attributes) align(64)) \
 				out(result : length(data_points) align(64)) \
 				inout(clusters)\
 				nocopy(num_of_cores)
+#endif    
 {
 	__attribute__((aligned(64))) unsigned long	i, j, current_level, max_level, stop, cluster_num, *indices;
 	__attribute__((aligned(64))) int		error;
@@ -946,12 +987,19 @@ int main(int argc, char *argv[])
 	__attribute__((aligned(64))) Node		*root, **cluster_nodes;
 	__attribute__((aligned(64))) double		max_diam, min_dist;
 	__attribute__((aligned(64))) struct timeval	start, end;
-
+#ifdef __INTEL_COMPILER
 	__assume_aligned(root, 64);
 	__assume_aligned(M_line, 64);
 	__assume_aligned(indices, 64);
 	__assume_aligned(centroid, 64);
 	__assume_aligned(cluster_nodes, 64);
+#else
+	__builtin_assume_aligned(root, 64);
+	__builtin_assume_aligned(M_line, 64);
+	__builtin_assume_aligned(indices, 64);
+	__builtin_assume_aligned(centroid, 64);
+	__builtin_assume_aligned(cluster_nodes, 64);
+#endif
 
 	#if defined(_OPENMP)
 	#pragma omp parallel
