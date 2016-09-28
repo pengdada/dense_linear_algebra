@@ -57,27 +57,18 @@ OpenMP
 Intel Xeon Phi - Offload Mode
 
 # 9. Level of the code sample complexity 
-Sample data example demonstrating the use of pddp-2means clustering in a small data set.
+Advanced.
 
 # 10. Instructions on how to compile the code
-Use the Makefile included in the src/ directory.
-
-Enable compilation on targets without Xeon Phi device
-select offload compilation enable/disable
-
-```
-icc -offload
-```
-```
-icc -no-offload
-```
+Please use intel compilers to enable Xeon Phi Offload mode
+CC=icc cmake ..
 
 # 11. Instructions on how to run the code
 Usage:
-./pddp_2means <input_file> <output_file> <clusters>
+./<exe> <input_file> <output_file> <clusters>
 
 Sample input example:
-./pddp_2means ../data/40k.csv pddp_2means.out 19
+./pddp_2means_omp ../data/40k.csv pddp_2means.out 19
 
 # 12. Sample input(s)
 Input-data is included in the data/ folder

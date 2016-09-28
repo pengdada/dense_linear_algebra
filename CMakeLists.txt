@@ -33,6 +33,7 @@ add_subdirectory(lud/cublas)
 add_subdirectory(lud/cusolver)
 add_subdirectory(lud/cublas_mkl)
 add_subdirectory(lud/cusolver_mkl)
+add_subdirectory(pddp2means)
 
 
 # ==================================================================================================
