@@ -61,7 +61,9 @@ Advanced.
 
 # 10. Instructions on how to compile the code
 Please use intel compilers to enable Xeon Phi Offload mode
+```
 CC=icc cmake ..
+```
 
 # 11. Instructions on how to run the code
 Usage:
