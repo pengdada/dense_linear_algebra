@@ -68,7 +68,7 @@ Usage:
 ./<exe> <input_file> <output_file> <clusters>
 
 Sample input example:
-./pddp_2means_omp ../data/40k.csv pddp_2means.out 19
+./1_dense_pddp2means_mic ../data/40k.csv pddp_2means.out 19
 
 # 12. Sample input(s)
 Input-data is included in the data/ folder
