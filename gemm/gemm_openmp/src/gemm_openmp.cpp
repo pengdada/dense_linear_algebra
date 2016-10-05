@@ -17,10 +17,11 @@
 #include <omp.h>
 #include <random>
 #include <iostream>
+#include <ctime>
 
 void fill_random(float *A, const int &n, const int &m)
 {
-  std::mt19937 e(static_cast<unsigned int>(time(nullptr)));
+  std::mt19937 e(static_cast<unsigned int>(std::time(nullptr)));
   std::uniform_real_distribution<float> f;
   for(int i=0; i<n; ++i)
   {
@@ -36,12 +37,10 @@ void gemm(float *A, float *B, float *C,
 {
   for(int i=0; i<A_rows; i++)
   {
-    for(int j=0; j<B_rows; j++) {
-      float sum = 0.0;
-      for (int k=0; k<A_cols; k++) {
-        sum += A[i*A_cols+k] * B[k*B_rows+j];
+    for (int k=0; k<A_cols; k++) {
+      for(int j=0; j<B_rows; j++) {
+        C[i*B_rows + j] += A[i*A_cols+k] * B[k*B_rows+j];
       }
-      C[i*B_rows+j ] = sum;
     }
   }
 }
@@ -53,14 +52,12 @@ void gemm_OpenMP(float *A, float *B, float *C,
   #pragma omp parallel for shared(A, B, C, A_rows, A_cols, B_rows) private(i, j, k)
   for (i = 0; i < A_rows; i++)
   {
-    for (j = 0; j < B_rows; j++)
+    for (k=0; k<A_cols; k++)
     {
-      float sum  = 0.0;
-      for (k=0; k<A_cols; k++)
-      {
-        sum += A[i*A_cols+k] * B[k*B_rows+j];
+      for (j = 0; j < B_rows; j++)
+	  {
+        C[i*B_rows + j] += A[i*A_cols+k] * B[k*B_rows+j];
       }
-      C[i*B_rows+j] = sum;
     }
   }
 }
@@ -86,7 +83,7 @@ int main(int argc, char **argv)
 
   float *A = new float[A_rows*A_cols];
   float *B = new float[B_rows*B_cols];
-  float *C = new float[A_rows*B_cols];
+  float *C = new float[A_rows*B_cols](); // value-init to zero
 
   fill_random(A, A_rows, A_cols);
   fill_random(B, B_rows, B_cols);
