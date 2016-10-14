@@ -16,7 +16,7 @@ if ("${DWARF_PREFIX}" STREQUAL "")
   set(DWARF_PREFIX 1_dense)
 endif()
 
-set(NAME ${DWARF_PREFIX}_gemm_tbb_lapack)
+set(NAME ${DWARF_PREFIX}_mklblas)
 
 if (OPENMP_FOUND AND Boost_FOUND AND MKL_FOUND)
 	enable_language(CXX)
