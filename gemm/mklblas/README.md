@@ -104,7 +104,7 @@ Compiler: Intel(R) 64, Version 17.0.0.109 Build 20160721 (MKL 2017.0) on Windows
 
 Be aware the chart has logarithmic scale.
 
-The benchmarks show some interesting facts:
+The benchmarks shows some interesting facts:
  * The *serial IKJ* implementation is brutally faster than IJK (~30x @2048)
  * *Serial IKJ* is the fastest smaller sizes (2-16). *MKL Blas* is the fastest for larger sizes (32-2048).
  * The *Parallel OpenMP IKJ implementation* is never the fastest. **Manually parallelizing matrix multiplication is not recommended!**
