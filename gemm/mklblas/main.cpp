@@ -72,7 +72,7 @@ void parallelGemm(const T* a, const T* b, T* c, std::size_t aRows,
 // use std::for_each(std::execution::par, ... ) in
 // C++17 instead
 #pragma omp parallel for
-	for (std::size_t i{0}; i < aRows; ++i) {
+	for (std::size_t i = 0; i < aRows; ++i) {
 		for (std::size_t k{0}; k < aCols; ++k) {
 			for (std::size_t j{0}; j < bCols; ++j) {
 				c[i * bCols + j] += a[i * aCols + k] * b[k * bCols + j];
@@ -149,7 +149,7 @@ int main(int argc, char* argv[]) {
 
 	// validate cmd args and select gemm implementation
 	if (argc != 2) { failInvalidArgs(modes); }
-	const auto modeArg{std::string(argv[1])};
+	const std::string modeArg = argv[1];
 	if (modes.count(modeArg) != 1) { failInvalidArgs(modes); }
 	const auto gemm = modes[modeArg];
 
