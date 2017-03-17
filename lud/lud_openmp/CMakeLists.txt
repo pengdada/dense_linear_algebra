@@ -3,7 +3,7 @@
 # CodeVault is part of the EU-project PRACE-4IP (WP7.3.C).
 #
 # Author(s):
-#  Rafal Gandecki <rafal.gandeci@pwr.edu.nl>
+#  Rafal Gandecki <rafal.gandeci@pwr.edu.pl>
 #
 # ==================================================================================================
 

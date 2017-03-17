@@ -4,7 +4,7 @@
 # CodeVault is part of the EU-project PRACE-4IP (WP7.3.C).
 #
 # Author(s):
-#  Mariusz Uchronski <mariusz.uchronski@pwr.edu.nl>
+#  Mariusz Uchronski <mariusz.uchronski@pwr.edu.pl>
 #
 # ==================================================================================================
 

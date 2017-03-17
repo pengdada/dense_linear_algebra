@@ -1,5 +1,13 @@
-#include <stdio.h>
+// =================================================================================================
+// This file is part of the CodeVault project. The project is licensed under Apache Version 2.0.
+// CodeVault is part of the EU-project PRACE-4IP (WP7.3.C).
+//
+// Author(s):
+//    Mariusz Uchronski <mariusz.uchronski@pwr.edu.pl>
+//
+// =================================================================================================
 
+#include <stdio.h>
 #include "magma.h"
 
 int main(int argc, char *argv[])
