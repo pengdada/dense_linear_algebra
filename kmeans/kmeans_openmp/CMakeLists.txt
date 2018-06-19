@@ -13,7 +13,7 @@ cmake_minimum_required(VERSION 2.8.10 FATAL_ERROR)
 find_package(OpenMP)   # Built-in in CMake
 find_package(MPI)      # Built-in in CMake
 
-include(${CMAKE_CURRENT_SOURCE_DIR}/../../../cmake/common.cmake)
+include(${CMAKE_CURRENT_SOURCE_DIR}/../../cmake/common.cmake)
 
 # ==================================================================================================
 

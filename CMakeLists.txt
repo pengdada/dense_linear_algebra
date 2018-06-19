@@ -11,7 +11,7 @@
 # CMake project
 cmake_minimum_required(VERSION 2.8.10 FATAL_ERROR)
 project("1_dense")
-include(${CMAKE_CURRENT_SOURCE_DIR}/../cmake/common.cmake)
+include(${CMAKE_CURRENT_SOURCE_DIR}/cmake/common.cmake)
 
 # ==================================================================================================
 

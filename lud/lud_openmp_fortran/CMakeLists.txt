@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 2.8.7 FATAL_ERROR)
-include(${CMAKE_CURRENT_SOURCE_DIR}/../../../cmake/common.cmake)
+include(${CMAKE_CURRENT_SOURCE_DIR}/../../cmake/common.cmake)
  
 # ==================================================================================================
 if ("${DWARF_PREFIX}" STREQUAL "")

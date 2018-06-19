@@ -10,7 +10,7 @@
 
 # Packages are optional: if they are not present, certain code samples are not compiled
 find_package(CUDA)     # Built-in in CMake
-include(${CMAKE_CURRENT_SOURCE_DIR}/../../../cmake/common.cmake)
+include(${CMAKE_CURRENT_SOURCE_DIR}/../../cmake/common.cmake)
 # ==================================================================================================
 if ("${DWARF_PREFIX}" STREQUAL "")
   set(DWARF_PREFIX 1_dense)

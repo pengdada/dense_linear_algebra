@@ -4,7 +4,7 @@ cmake_minimum_required(VERSION 2.8.10 FATAL_ERROR)
 find_package(OpenMP)
 find_package(Boost 1.58.0)
 
-include(${CMAKE_CURRENT_SOURCE_DIR}/../../../cmake/common.cmake)
+include(${CMAKE_CURRENT_SOURCE_DIR}/../../cmake/common.cmake)
 
 find_package(MKL)
 
